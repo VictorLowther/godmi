@@ -76,12 +76,13 @@ func newSystemInformation(h dmiHeader) dmiTyper {
 		ProductName:  h.FieldString(int(data[0x05])),
 		Version:      version,
 		SerialNumber: h.FieldString(int(data[0x07])),
-		UUID:         uuid(data[0x08:0x18], version),
+		UUID:         uuid(data[0x08:0x18], smbiosVersion),
 		WakeUpType:   SystemInformationWakeUpType(data[0x18]),
 		SKUNumber:    h.FieldString(int(data[0x19])),
 		Family:       h.FieldString(int(data[0x1A])),
 	}
 	SystemInformations = append(SystemInformations, si)
+
 	return si
 }
 

@@ -122,11 +122,22 @@ func u64(data []byte) uint64 {
 }
 
 func uuid(data []byte, ver string) string {
-	if bytes.Index(data, []byte{0x00}) != -1 {
+	var only0xFF, only0x00 = true, true
+
+	for i := 0; i < 16 && (only0x00 || only0xFF); i++ {
+		if data[i] != 0x00 {
+			only0x00 = false
+		}
+		if data[i] != 0xFF {
+			only0xFF = false
+		}
+	}
+
+	if only0xFF {
 		return "Not present"
 	}
 
-	if bytes.Index(data, []byte{0xFF}) != -1 {
+	if only0x00 {
 		return "Not settable"
 	}
 

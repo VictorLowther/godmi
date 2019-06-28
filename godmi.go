@@ -358,11 +358,15 @@ func getTypeFunc(t SMBIOSStructureType) (fn newFunction, err error) {
 	return fn, nil
 }
 
+var smbiosVersion string
+
 func Init() error {
 	eps, file, err := newEntryPoint()
 	if err != nil {
 		return err
 	}
+	smbiosVersion = fmt.Sprintf("%d.%d", eps.MajorVersion, eps.MinorVersion)
+
 	return eps.StructureTable(file)
 }
 

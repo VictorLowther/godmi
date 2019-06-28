@@ -557,6 +557,12 @@ func (p ProcessorFamily) String() string {
 
 type ProcessorID uint64
 
+func (pid ProcessorID) String() string {
+	p := u64Tobytes(uint64(pid))
+	return fmt.Sprintf("%02X %02X %02X %02X %02X %02X %02X %02X",
+		p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7])
+}
+
 type ProcessorVoltage byte
 
 const (
