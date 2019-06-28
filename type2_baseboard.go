@@ -51,7 +51,7 @@ func (b BaseboardFeatureFlags) MarshalJSON() ([]byte, error) {
 type BaseboardType byte
 
 var baseboardType = []string{
-	"reserved",
+	"Unspecified",
 	"Unknown",
 	"Other",
 	"Server Blade",
@@ -68,6 +68,9 @@ var baseboardType = []string{
 }
 
 func (b BaseboardType) String() string {
+	if int(b) >= len(baseboardType) {
+		b = 0
+	}
 	return baseboardType[b]
 }
 
@@ -114,15 +117,30 @@ var BaseboardInformations []*BaseboardInformation
 
 func newBaseboardInformation(h dmiHeader) dmiTyper {
 	data := h.data
-	bi := &BaseboardInformation{
-		Manufacturer:      h.FieldString(int(data[0x04])),
-		ProductName:       h.FieldString(int(data[0x05])),
-		Version:           h.FieldString(int(data[0x06])),
-		SerialNumber:      h.FieldString(int(data[0x07])),
-		AssetTag:          h.FieldString(int(data[0x08])),
-		FeatureFlags:      BaseboardFeatureFlags(data[0x09]),
-		LocationInChassis: h.FieldString(int(data[0x0A])),
-		BoardType:         BaseboardType(data[0x0D]),
+	length := int(data[0x01])
+	bi := &BaseboardInformation{}
+	for _, idx := range []int{0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0d} {
+		if idx >= length {
+			break
+		}
+		switch idx {
+		case 0x04:
+			bi.Manufacturer = h.FieldString(int(data[0x04]))
+		case 0x05:
+			bi.ProductName = h.FieldString(int(data[0x05]))
+		case 0x06:
+			bi.Version = h.FieldString(int(data[0x06]))
+		case 0x07:
+			bi.SerialNumber = h.FieldString(int(data[0x07]))
+		case 0x08:
+			bi.AssetTag = h.FieldString(int(data[0x08]))
+		case 0x09:
+			bi.FeatureFlags = BaseboardFeatureFlags(data[0x09])
+		case 0x0a:
+			bi.LocationInChassis = h.FieldString(int(data[0x0A]))
+		case 0x0d:
+			bi.BoardType = BaseboardType(data[0x0D])
+		}
 	}
 
 	BaseboardInformations = append(BaseboardInformations, bi)
@@ -132,7 +150,7 @@ func newBaseboardInformation(h dmiHeader) dmiTyper {
 func GetBaseboardInformation() string {
 	var ret string
 	for i, v := range BaseboardInformations {
-		ret += "\n baseboad infomation index:" + strconv.Itoa(i) + "\n" + v.String()
+		ret += "\n baseboard infomation index:" + strconv.Itoa(i) + "\n" + v.String()
 	}
 	return ret
 }
