@@ -1,4 +1,4 @@
-package godmi_test
+package godmi
 
 import (
 	"bufio"
@@ -10,8 +10,6 @@ import (
 	"strconv"
 	"strings"
 	"testing"
-
-	. "github.com/ochapman/godmi"
 )
 
 func dmidecode(arg ...string) string {
