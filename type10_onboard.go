@@ -26,7 +26,8 @@ const (
 )
 
 func (t OnBoardDeviceTypeOfDevice) String() string {
-	types := [...]string{
+	return safeLookup(byte(t)-1,
+		"Undefined",
 		"Other",
 		"Unknown",
 		"Video",
@@ -37,8 +38,7 @@ func (t OnBoardDeviceTypeOfDevice) String() string {
 		"PATA Controller",
 		"SATA Controller",
 		"SAS Controller",
-	}
-	return types[t-1]
+	)
 }
 
 type OnBoardDeviceType struct {

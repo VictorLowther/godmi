@@ -1,9 +1,9 @@
 /*
 * File Name:	type26_voltage_probe.go
-* Description:	
+* Description:
 * Author:	Chapman Ou <ochapman.cn@gmail.com>
 * Created:	2014-08-19
-*/
+ */
 package godmi
 
 import (
@@ -22,15 +22,14 @@ const (
 )
 
 func (v VoltageProbeStatus) String() string {
-	status := [...]string{
+	return safeLookup(byte(v)-6,
 		"Other",
 		"Unknown",
 		"OK",
 		"Non-critical",
 		"Critical",
 		"Non-recoverable",
-	}
-	return status[v-6]
+	)
 }
 
 type VoltageProbeLocation byte
@@ -50,7 +49,7 @@ const (
 )
 
 func (v VoltageProbeLocation) String() string {
-	locations := [...]string{
+	return safeLookup(byte(v)-1,
 		"Other",
 		"Unknown",
 		"OK",
@@ -62,8 +61,7 @@ func (v VoltageProbeLocation) String() string {
 		"Processor Module",
 		"Power Unit",
 		"Add-in Card",
-	}
-	return locations[v-1]
+	)
 }
 
 type VoltageProbeLocationAndStatus struct {

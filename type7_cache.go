@@ -21,13 +21,12 @@ const (
 )
 
 func (c CacheOperationalMode) String() string {
-	modes := [...]string{
+	return safeLookup(byte(c),
 		"Write Through",
 		"Write Back",
 		"Varies With Memory Address",
 		"Unknown",
-	}
-	return modes[c]
+	)
 }
 
 type CacheLocation byte
@@ -40,13 +39,12 @@ const (
 )
 
 func (c CacheLocation) String() string {
-	locations := [...]string{
+	return safeLookup(byte(c),
 		"Internal",
 		"External",
 		"Reserved",
 		"Unknown",
-	}
-	return locations[c]
+	)
 }
 
 type CacheLevel byte
@@ -58,12 +56,11 @@ const (
 )
 
 func (c CacheLevel) String() string {
-	levels := [...]string{
+	return safeLookup(byte(c),
 		"Level1",
 		"Level2",
 		"Level3",
-	}
-	return levels[c]
+	)
 }
 
 type CacheConfiguration struct {
@@ -106,11 +103,10 @@ const (
 )
 
 func (c CacheGranularity) String() string {
-	grans := [...]string{
+	return safeLookup(byte(c),
 		"1K",
 		"64K",
-	}
-	return grans[c]
+	)
 }
 
 type CacheSize struct {
@@ -200,15 +196,14 @@ const (
 )
 
 func (c CacheErrorCorrectionType) String() string {
-	types := [...]string{
+	return safeLookup(byte(c)-1,
 		"Other",
 		"Unknown",
 		"None",
 		"Parity",
 		"Single-bit ECC",
 		"Multi-bit ECC",
-	}
-	return types[c-1]
+	)
 }
 
 type CacheSystemCacheType byte
@@ -222,14 +217,13 @@ const (
 )
 
 func (c CacheSystemCacheType) String() string {
-	types := [...]string{
+	return safeLookup(byte(c)-1,
 		"Other",
 		"Unknown",
 		"Instruction",
 		"Data",
 		"Unified",
-	}
-	return types[c-1]
+	)
 }
 
 type CacheAssociativity byte
@@ -252,7 +246,7 @@ const (
 )
 
 func (c CacheAssociativity) String() string {
-	caches := [...]string{
+	return safeLookup(byte(c),
 		"Reserved",
 		"Other",
 		"Unknown",
@@ -268,8 +262,7 @@ func (c CacheAssociativity) String() string {
 		"48-way Set-Associative",
 		"64-way Set-Associative",
 		"20-way Set-Associative",
-	}
-	return caches[c]
+	)
 }
 
 type CacheInformation struct {

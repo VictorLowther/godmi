@@ -117,7 +117,7 @@ func (b SMBIOSStructureType) String() string {
 		"Management Controller Host Interface", /* 42 */
 	}
 
-	if b > 42 {
+	if int(b) >= len(types) {
 		return "unspported type:" + strconv.Itoa(int(b))
 	}
 	return types[b]

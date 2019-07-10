@@ -14,7 +14,7 @@ import (
 type PortableBatteryDeviceChemistry byte
 
 func (p PortableBatteryDeviceChemistry) String() string {
-	chems := [...]string{
+	return safeLookup(byte(p)-1,
 		"Other",
 		"Unknown(see SBDS Device Chemistry)",
 		"Lead Acid",
@@ -23,8 +23,7 @@ func (p PortableBatteryDeviceChemistry) String() string {
 		"Lithium-ion",
 		"Zinc air",
 		"Lithium Polymer",
-	}
-	return chems[p-1]
+	)
 }
 
 type SBDSManufactureDateType uint16

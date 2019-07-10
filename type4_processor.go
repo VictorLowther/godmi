@@ -25,15 +25,14 @@ const (
 )
 
 func (p ProcessorType) String() string {
-	types := [...]string{
+	return safeLookup(byte(p)-1,
 		"Other",
 		"Unknown",
 		"CentralProcessor",
 		"MathProcessor",
 		"DSPProcessor",
 		"VideoProcessor",
-	}
-	return types[p-1]
+	)
 }
 
 func (p ProcessorType) MarshalText() ([]byte, error) {

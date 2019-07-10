@@ -1,9 +1,9 @@
 /*
 * File Name:	type28_temperature_probe.go
-* Description:	
+* Description:
 * Author:	Chapman Ou <ochapman.cn@gmail.com>
 * Created:	2014-08-19
-*/
+ */
 package godmi
 
 import (
@@ -22,15 +22,14 @@ const (
 )
 
 func (t TemperatureProbeStatus) String() string {
-	status := [...]string{
+	return safeLookup(byte(t)-0x20,
 		"Other",
 		"Unknown",
 		"OK",
 		"Non-critical",
 		"Critical",
 		"Non-recoverable",
-	}
-	return status[t-0x20]
+	)
 }
 
 type TemperatureProbeLocation byte
@@ -54,7 +53,7 @@ const (
 )
 
 func (t TemperatureProbeLocation) String() string {
-	locations := [...]string{
+	return safeLookup(byte(t)-1,
 		"Other",
 		"Unknown",
 		"Processor",
@@ -70,8 +69,7 @@ func (t TemperatureProbeLocation) String() string {
 		"Back Panel Board",
 		"Power System Board",
 		"Drive Back Plane",
-	}
-	return locations[t-1]
+	)
 }
 
 type TemperatureProbeLocationAndStatus struct {

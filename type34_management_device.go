@@ -1,9 +1,9 @@
 /*
 * File Name:	type34_management_device.go
-* Description:	
+* Description:
 * Author:	Chapman Ou <ochapman.cn@gmail.com>
 * Created:	2014-08-20
-*/
+ */
 package godmi
 
 import (
@@ -29,7 +29,7 @@ const (
 )
 
 func (m ManagementDeviceType) String() string {
-	types := [...]string{
+	return safeLookup(byte(m)-1,
 		"Other",
 		"Unknown",
 		"National Semiconductor LM75",
@@ -43,8 +43,7 @@ func (m ManagementDeviceType) String() string {
 		"Genesys GL518SM",
 		"Winbond W83781D",
 		"Holtek HT82H791",
-	}
-	return types[m-1]
+	)
 }
 
 type ManagementDeviceAddressType byte
@@ -58,14 +57,13 @@ const (
 )
 
 func (m ManagementDeviceAddressType) String() string {
-	types := [...]string{
+	return safeLookup(byte(m)-1,
 		"Other",
 		"Unknown",
 		"I/O Port",
 		"Memory",
 		"SM Bus",
-	}
-	return types[m-1]
+	)
 }
 
 type ManagementDevice struct {
@@ -87,4 +85,3 @@ func (m ManagementDevice) String() string {
 		m.Address,
 		m.AddressType)
 }
-

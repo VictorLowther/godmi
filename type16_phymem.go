@@ -32,7 +32,7 @@ const (
 )
 
 func (p PhysicalMemoryArrayLocation) String() string {
-	locations := [...]string{
+	return safeLookup(byte(p)-1,
 		"Other",
 		"Unknown",
 		"System board or motherboard",
@@ -47,8 +47,7 @@ func (p PhysicalMemoryArrayLocation) String() string {
 		"PC-98/C24 add-on card",
 		"PC-98/E add-on card",
 		"PC-98/Local bus add-on card",
-	}
-	return locations[p-1]
+	)
 }
 
 func (p PhysicalMemoryArrayLocation) MarshalText() ([]byte, error) {
@@ -68,7 +67,7 @@ const (
 )
 
 func (p PhysicalMemoryArrayUse) String() string {
-	uses := [...]string{
+	return safeLookup(byte(p)-1,
 		"Other",
 		"Unknown",
 		"System memory",
@@ -76,8 +75,7 @@ func (p PhysicalMemoryArrayUse) String() string {
 		"Flash memory",
 		"Non-volatile RAM",
 		"Cache memory",
-	}
-	return uses[p-1]
+	)
 }
 
 func (p PhysicalMemoryArrayUse) MarshalText() ([]byte, error) {
@@ -97,7 +95,7 @@ const (
 )
 
 func (p PhysicalMemoryArrayErrorCorrection) String() string {
-	types := [...]string{
+	return safeLookup(byte(p)-1,
 		"Other",
 		"Unknown",
 		"None",
@@ -105,8 +103,7 @@ func (p PhysicalMemoryArrayErrorCorrection) String() string {
 		"Single-bit ECC",
 		"Multi-bit ECC",
 		"CRC",
-	}
-	return types[p-1]
+	)
 }
 func (p PhysicalMemoryArrayErrorCorrection) MarshalText() ([]byte, error) {
 	return []byte(p.String()), nil

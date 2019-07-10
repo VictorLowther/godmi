@@ -22,15 +22,14 @@ const (
 )
 
 func (c CoolingDeviceStatus) String() string {
-	status := [...]string{
+	return safeLookup(byte(c)-0x20,
 		"Other",
 		"Unknown",
 		"OK",
 		"Non-critical",
 		"Critical",
 		"Non-recoverable",
-	}
-	return status[c-0x20]
+	)
 }
 
 type CoolingDeviceType byte
@@ -50,7 +49,7 @@ const (
 )
 
 func (c CoolingDeviceType) String() string {
-	types := [...]string{
+	return safeLookup(byte(c)-1,
 		"Other",
 		"Unknown",
 		"Fan",
@@ -62,8 +61,7 @@ func (c CoolingDeviceType) String() string {
 		"Integrated Refrigeration",
 		"Active Cooling",
 		"Passive Cooling",
-	}
-	return types[c-1]
+	)
 }
 
 type CoolingDeviceTypeAndStatus struct {

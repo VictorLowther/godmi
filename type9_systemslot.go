@@ -75,44 +75,46 @@ const (
 )
 
 func (s SystemSlotType) String() string {
-	types := [...]string{
-		"Other", // 0x01
-		"Unknown",
-		"ISA",
-		"MCA",
-		"EISA",
-		"PCI",
-		"PC Card (PCMCIA)",
-		"VL-VESA",
-		"Proprietary",
-		"Processor Card Slot",
-		"Proprietary Memory Card Slot",
-		"I/O Riser Card Slot",
-		"NuBus",
-		"PCI – 66MHz Capable",
-		"AGP",
-		"AGP 2X",
-		"AGP 4X",
-		"PCI-X",
-		"AGP 8X",
-		"M.2 Socket 1-DP (Mechanical Key A)",
-		"M.2 Socket 1-SD (Mechanical Key E)",
-		"M.2 Socket 2 (Mechanical Key B)",
-		"M.2 Socket 3 (Mechanical Key M)",
-		"MXM Type I",
-		"MXM Type II",
-		"MXM Type III (standard connector)",
-		"MXM Type III (HE connector)",
-		"MXM Type IV",
-		"MXM 3.0 Type A",
-		"MXM 3.0 Type B",
-		"PCI Express Gen 2 SFF-8639",
-		"PCI Express Gen 3 SFF-8639",
-		"PCI Express Mini 52-pin (CEM spec. 2.0) with bottom-side keep-outs",
-		"PCI Express Mini 52-pin (CEM spec. 2.0) without bottom-side keep-outs",
-		"PCI Express Mini 76-pin", // 0x23
+	if s < 0xa0 {
+		return safeLookup(byte(s)-1,
+			"Other", // 0x01
+			"Unknown",
+			"ISA",
+			"MCA",
+			"EISA",
+			"PCI",
+			"PC Card (PCMCIA)",
+			"VL-VESA",
+			"Proprietary",
+			"Processor Card Slot",
+			"Proprietary Memory Card Slot",
+			"I/O Riser Card Slot",
+			"NuBus",
+			"PCI – 66MHz Capable",
+			"AGP",
+			"AGP 2X",
+			"AGP 4X",
+			"PCI-X",
+			"AGP 8X",
+			"M.2 Socket 1-DP (Mechanical Key A)",
+			"M.2 Socket 1-SD (Mechanical Key E)",
+			"M.2 Socket 2 (Mechanical Key B)",
+			"M.2 Socket 3 (Mechanical Key M)",
+			"MXM Type I",
+			"MXM Type II",
+			"MXM Type III (standard connector)",
+			"MXM Type III (HE connector)",
+			"MXM Type IV",
+			"MXM 3.0 Type A",
+			"MXM 3.0 Type B",
+			"PCI Express Gen 2 SFF-8639",
+			"PCI Express Gen 3 SFF-8639",
+			"PCI Express Mini 52-pin (CEM spec. 2.0) with bottom-side keep-outs",
+			"PCI Express Mini 52-pin (CEM spec. 2.0) without bottom-side keep-outs",
+			"PCI Express Mini 76-pin", // 0x23)
+		)
 	}
-	types2 := [...]string{
+	return safeLookup(byte(s)-0xa0,
 		"PC-98/C20", //0xa0
 		"PC-98/C24",
 		"PC-98/E",
@@ -136,11 +138,7 @@ func (s SystemSlotType) String() string {
 		"PCI Express Gen 3 x4",
 		"PCI Express Gen 3 x8",
 		"PCI Express Gen 3 x16",
-	}
-	if s < 0xa0 {
-		return types[s-1]
-	}
-	return types2[s-0xa0]
+	)
 }
 
 type SystemSlotDataBusWidth byte
@@ -163,7 +161,7 @@ const (
 )
 
 func (s SystemSlotDataBusWidth) String() string {
-	widths := [...]string{
+	return safeLookup(byte(s)-1,
 		"Other",
 		"Unknown",
 		"8 bit",
@@ -178,8 +176,7 @@ func (s SystemSlotDataBusWidth) String() string {
 		"12x or x12",
 		"16x or x16",
 		"32x or x32",
-	}
-	return widths[s-1]
+	)
 }
 
 type SystemSlotUsage byte
@@ -192,13 +189,12 @@ const (
 )
 
 func (s SystemSlotUsage) String() string {
-	usages := [...]string{
+	return safeLookup(byte(s)-1,
 		"Other",
 		"Unknown",
 		"Available",
 		"In use",
-	}
-	return usages[s-1]
+	)
 }
 
 type SystemSlotLength byte
@@ -211,13 +207,12 @@ const (
 )
 
 func (s SystemSlotLength) String() string {
-	lengths := [...]string{
+	return safeLookup(byte(s)-1,
 		"Other",
 		"Unknown",
 		"Short Length",
 		"Long Length",
-	}
-	return lengths[s-1]
+	)
 }
 
 type SystemSlotID uint16
@@ -236,7 +231,7 @@ const (
 )
 
 func (s SystemSlotCharacteristics1) String() string {
-	chars := [...]string{
+	return safeLookup(byte(s)>>1,
 		"Characteristics unknown.",
 		"Provides 5.0 volts.",
 		"Provides 3.3 volts.",
@@ -245,8 +240,7 @@ func (s SystemSlotCharacteristics1) String() string {
 		"PC Card slot supports CardBus.",
 		"PC Card slot supports Zoom Video.",
 		"PC Card slot supports Modem Ring Resume.",
-	}
-	return chars[s>>1]
+	)
 }
 
 type SystemSlotCharacteristics2 byte
@@ -259,13 +253,12 @@ const (
 )
 
 func (s SystemSlotCharacteristics2) String() string {
-	chars := [...]string{
+	return safeLookup(byte(s)>>1,
 		"PCI slot supports Power Management Event (PME#) signal.",
 		"Slot supports hot-plug devices.",
 		"PCI slot supports SMBus signal.",
 		"Reserved",
-	}
-	return chars[s>>1]
+	)
 }
 
 type SystemSlotSegmengGroupNumber uint16

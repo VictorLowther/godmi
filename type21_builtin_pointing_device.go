@@ -14,7 +14,7 @@ import (
 type BuiltinPointingDeviceType byte
 
 func (b BuiltinPointingDeviceType) String() string {
-	types := [...]string{
+	return safeLookup(byte(b)-1,
 		"Other",
 		"Unknown",
 		"Mouse",
@@ -24,32 +24,29 @@ func (b BuiltinPointingDeviceType) String() string {
 		"Touch Pad",
 		"Touch Screen",
 		"Optical Sensor",
-	}
-	return types[b-1]
+	)
 }
 
 type BuiltinPointingDeviceInterface byte
 
 func (b BuiltinPointingDeviceInterface) String() string {
-	interfaces1 := [...]string{
-		"Other", // 0x01h
-		"Unknown",
-		"Serial",
-		"PS/2",
-		"Infrared",
-		"HP-HIL",
-		"Bus mouse",
-		"ADB (Apple Desktop Bus)", // 0x08h
+	if b < 0xA0 {
+		return safeLookup(byte(b)-1,
+			"Other", // 0x01h
+			"Unknown",
+			"Serial",
+			"PS/2",
+			"Infrared",
+			"HP-HIL",
+			"Bus mouse",
+			"ADB (Apple Desktop Bus)", // 0x08h
+		)
 	}
-	interfaces2 := [...]string{
+	return safeLookup(byte(b)-0xA0,
 		"Bus mouse DB-9", // 0xA0h
 		"Bus mouse micro-DIN",
 		"USB", // 0xA2h
-	}
-	if b < 0xA0 {
-		return interfaces1[b-1]
-	}
-	return interfaces2[b-0xA0]
+	)
 }
 
 type BuiltinPointingDevice struct {

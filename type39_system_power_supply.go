@@ -26,7 +26,7 @@ const (
 )
 
 func (s SystemPowerSupplyType) String() string {
-	types := [...]string{
+	return safeLookup(byte(s)-1,
 		"Other",
 		"Unknown",
 		"Linear",
@@ -35,12 +35,7 @@ func (s SystemPowerSupplyType) String() string {
 		"UPS",
 		"Converter",
 		"Regulator",
-		"Reserved",
-	}
-	if s <= 7 {
-		return types[s-1]
-	}
-	return types[8]
+	)
 }
 
 type SystemPowerSupplyStatus byte
@@ -54,14 +49,13 @@ const (
 )
 
 func (s SystemPowerSupplyStatus) String() string {
-	status := [...]string{
+	return safeLookup(byte(s)-1,
 		"Other",
 		"Unknown",
 		"OK",
 		"Non-critical",
 		"Critical",
-	}
-	return status[s-1]
+	)
 }
 
 type SystemPowerSupplyInputVoltageSwitching byte
@@ -77,19 +71,14 @@ const (
 )
 
 func (s SystemPowerSupplyInputVoltageSwitching) String() string {
-	switches := [...]string{
+	return safeLookup(byte(s)-1,
 		"Other",
 		"Unknown",
 		"Manual",
 		"Auto-switch",
 		"Wide range",
 		"Not applicable",
-		"Reserved",
-	}
-	if s < 6 {
-		return switches[s-1]
-	}
-	return switches[6]
+	)
 }
 
 type SystemPowerSupplyCharacteristics struct {

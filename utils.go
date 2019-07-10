@@ -121,6 +121,13 @@ func u64(data []byte) uint64 {
 	return u
 }
 
+func safeLookup(i byte, vals ...string) string {
+	if int(i) < len(vals) {
+		return vals[i]
+	}
+	return "Undefined"
+}
+
 func uuid(data []byte, ver string) string {
 	var only0xFF, only0x00 = true, true
 

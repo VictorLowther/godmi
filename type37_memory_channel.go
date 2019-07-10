@@ -1,9 +1,9 @@
 /*
 * File Name:	type37_memory_channel.go
-* Description:	
+* Description:
 * Author:	Chapman Ou <ochapman.cn@gmail.com>
 * Created:	2014-08-20
-*/
+ */
 package godmi
 
 import (
@@ -20,13 +20,12 @@ const (
 )
 
 func (m MemoryChannelType) String() string {
-	types := [...]string{
+	return safeLookup(byte(m)-1,
 		"Other",
 		"Unknown",
 		"RamBus",
 		"SyncLink",
-	}
-	return types[m-1]
+	)
 }
 
 type MemoryDeviceLoadHandle struct {
@@ -76,4 +75,3 @@ func (m MemoryChannel) String() string {
 		m.MaximumChannelLoad,
 		m.LoadHandle)
 }
-

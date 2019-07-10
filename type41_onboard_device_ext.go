@@ -1,9 +1,9 @@
 /*
 * File Name:	type41_onboard_device_ext.go
-* Description:	
+* Description:
 * Author:	Chapman Ou <ochapman.cn@gmail.com>
 * Created:	2014-08-20
-*/
+ */
 package godmi
 
 import (
@@ -26,7 +26,7 @@ const (
 )
 
 func (o OnBoardDevicesExtendedInformationType) String() string {
-	types := [...]string{
+	return safeLookup(byte(o)-1,
 		"Other",
 		"Unknown",
 		"Video",
@@ -37,8 +37,7 @@ func (o OnBoardDevicesExtendedInformationType) String() string {
 		"PATA Controller",
 		"SATA Controller",
 		"SAS Controller",
-	}
-	return types[o-1]
+	)
 }
 
 type OnBoardDevicesExtendedInformation struct {

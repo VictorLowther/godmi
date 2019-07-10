@@ -1,9 +1,9 @@
 /*
 * File Name:	type29_electrical_current_probe.go
-* Description:	
+* Description:
 * Author:	Chapman Ou <ochapman.cn@gmail.com>
 * Created:	2014-08-20
-*/
+ */
 package godmi
 
 import (
@@ -22,15 +22,14 @@ const (
 )
 
 func (e ElectricalCurrentProbeStatus) String() string {
-	status := [...]string{
+	return safeLookup(byte(e)-0x20,
 		"Other",
 		"Unknown",
 		"OK",
 		"Non-critical",
 		"Critical",
 		"Non-recoverable",
-	}
-	return status[e-0x20]
+	)
 }
 
 type ElectricalCurrentProbeLocation byte
@@ -50,7 +49,7 @@ const (
 )
 
 func (e ElectricalCurrentProbeLocation) String() string {
-	locations := [...]string{
+	return safeLookup(byte(e)-1,
 		"Other",
 		"Unknown",
 		"Processor",
@@ -62,8 +61,7 @@ func (e ElectricalCurrentProbeLocation) String() string {
 		"Processor Module",
 		"Power Unit",
 		"Add-in Card",
-	}
-	return locations[e-1]
+	)
 }
 
 type ElectricalCurrentProbeLocationAndStatus struct {
@@ -118,4 +116,3 @@ func (e ElectricalCurrentProbe) String() string {
 		e.OEMdefined,
 		e.NomimalValue)
 }
-

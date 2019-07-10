@@ -115,15 +115,14 @@ const (
 )
 
 func (c ChassisState) String() string {
-	states := [...]string{
+	return safeLookup(byte(c)-1,
 		"Other",
 		"Unknown",
 		"Safe",
 		"Warning",
 		"Critical",
 		"NonRecoverable",
-	}
-	return states[c-1]
+	)
 }
 
 func (c ChassisState) MarshalText() ([]byte, error) {
@@ -149,14 +148,13 @@ const (
 )
 
 func (s ChassisSecurityStatus) String() string {
-	status := [...]string{
+	return safeLookup(byte(s)-1,
 		"Other",
 		"Unknown",
 		"None",
 		"ExternalInterfaceLockedOut",
 		"ExternalInterfaceEnabled",
-	}
-	return status[s-1]
+	)
 }
 
 func (c ChassisSecurityStatus) MarshalText() ([]byte, error) {
