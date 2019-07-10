@@ -12,7 +12,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/pinetreeH/godmi"
+	"github.com/VictorLowther/godmi"
 )
 
 func main() {
