@@ -858,7 +858,7 @@ func (p ProcessorInformation) String() string {
 		"\tProcessor Type: %s\n"+
 		"\tFamily: %s\n"+
 		"\tManufacturer: %s\n"+
-		"\tID: %x\n"+
+		"\tID: %s\n"+
 		"\tVersion: %s\n"+
 		"\tVoltage: %s\n"+
 		"\tExternal Clock: %d MHz\n"+
@@ -901,7 +901,7 @@ func (p ProcessorInformation) String() string {
 }
 
 func newProcessorInformation(h dmiHeader) dmiTyper {
-	data := h.data
+	data := h.data()
 	pi := &ProcessorInformation{
 		SocketDesignation: h.FieldString(int(data[0x04])),
 		ProcessorType:     ProcessorType(data[0x05]),

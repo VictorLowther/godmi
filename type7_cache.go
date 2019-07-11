@@ -304,7 +304,7 @@ func (c CacheInformation) String() string {
 }
 
 func newCacheInformation(h dmiHeader) dmiTyper {
-	data := h.data
+	data := h.data()
 	ci := &CacheInformation{
 		SocketDesignation:   h.FieldString(int(data[0x04])),
 		Configuration:       NewCacheConfiguration(u16(data[0x05:0x07])),

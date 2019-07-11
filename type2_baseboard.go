@@ -116,7 +116,7 @@ func (b BaseboardInformation) String() string {
 var BaseboardInformations []*BaseboardInformation
 
 func newBaseboardInformation(h dmiHeader) dmiTyper {
-	data := h.data
+	data := h.data()
 	length := int(data[0x01])
 	bi := &BaseboardInformation{}
 	for _, idx := range []int{0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0d} {

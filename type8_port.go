@@ -220,7 +220,7 @@ func (p PortInformation) String() string {
 }
 
 func newPortInformation(h dmiHeader) dmiTyper {
-	data := h.data
+	data := h.data()
 	pi := &PortInformation{
 		InternalReferenceDesignator: h.FieldString(int(data[0x04])),
 		InternalConnectorType:       PortConnectorType(data[0x05]),

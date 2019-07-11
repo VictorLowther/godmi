@@ -309,7 +309,7 @@ func (s SystemSlot) String() string {
 }
 
 func newSystemSlot(h dmiHeader) dmiTyper {
-	data := h.data
+	data := h.data()
 	si := &SystemSlot{
 		Designation:          h.FieldString(int(data[0x04])),
 		Type:                 SystemSlotType(data[0x05]),

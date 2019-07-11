@@ -136,7 +136,7 @@ func (p PhysicalMemoryArray) String() string {
 }
 
 func newPhysicalMemoryArray(h dmiHeader) dmiTyper {
-	data := h.data
+	data := h.data()
 	res := &PhysicalMemoryArray{
 		Location:               PhysicalMemoryArrayLocation(data[0x04]),
 		Use:                    PhysicalMemoryArrayUse(data[0x05]),

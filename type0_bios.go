@@ -195,7 +195,7 @@ func (b BIOSInformation) String() string {
 var BIOSInformations []*BIOSInformation
 
 func newBIOSInformation(h dmiHeader) dmiTyper {
-	data := h.data
+	data := h.data()
 	sas := u16(data[0x06:0x08])
 	bi := &BIOSInformation{
 		Vendor:                 h.FieldString(int(data[0x04])),
@@ -207,10 +207,10 @@ func newBIOSInformation(h dmiHeader) dmiTyper {
 		Characteristics:        BIOSCharacteristics([10]byte{}),
 	}
 	copy(bi.Characteristics[:], data[0x0A:0x12])
-	if h.length >= 0x13 {
+	if h.len() >= 0x13 {
 		bi.Characteristics[8] = data[0x12]
 	}
-	if h.length >= 0x14 {
+	if h.len() >= 0x14 {
 		bi.Characteristics[9] = data[0x13]
 	}
 	BIOSInformations = append(BIOSInformations, bi)

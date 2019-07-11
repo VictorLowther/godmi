@@ -171,7 +171,7 @@ type SystemPowerSupply struct {
 }
 
 func newSystemPowerSupply(h dmiHeader) dmiTyper {
-	data := h.data
+	data := h.data()
 	s := &SystemPowerSupply{
 		PowerUnitGroup:             data[0x04],
 		Location:                   h.FieldString(int(data[0x05])),

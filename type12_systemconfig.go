@@ -23,7 +23,7 @@ func (s SystemConfigurationOptions) String() string {
 
 func newSystemConfigurationOptions(h dmiHeader) dmiTyper {
 	var sc SystemConfigurationOptions
-	data := h.data
+	data := h.data()
 	sc.Count = data[0x04]
 	for i := 1; i <= int(sc.Count); i++ {
 		sc.strings += fmt.Sprintf("string %d: %s\n\t\t", i, h.FieldString(i))

@@ -68,7 +68,7 @@ func (b BuiltinPointingDevice) String() string {
 }
 
 func newBuiltinPointingDevice(h dmiHeader) dmiTyper {
-	data := h.data
+	data := h.data()
 	bi := &BuiltinPointingDevice{
 		Type:            BuiltinPointingDeviceType(data[0x04]),
 		Interface:       BuiltinPointingDeviceInterface(data[0x05]),

@@ -69,7 +69,7 @@ func (s SystemInformation) String() string {
 var SystemInformations []*SystemInformation
 
 func newSystemInformation(h dmiHeader) dmiTyper {
-	data := h.data
+	data := h.data()
 	version := h.FieldString(int(data[0x06]))
 	si := &SystemInformation{
 		Manufacturer: h.FieldString(int(data[0x04])),

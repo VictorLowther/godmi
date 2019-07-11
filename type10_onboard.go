@@ -64,7 +64,7 @@ func (d OnBoardDeviceInformation) String() string {
 
 func newOnBoardDeviceInformation(h dmiHeader) dmiTyper {
 	var d OnBoardDeviceInformation
-	data := h.data
+	data := h.data()
 	n := (data[0x01] - 4) / 2
 	for i := byte(1); i <= n; i++ {
 		var t OnBoardDeviceType

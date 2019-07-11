@@ -32,12 +32,11 @@ func (g GroupAssociations) String() string {
 
 func newGroupAssociations(h dmiHeader) dmiTyper {
 	var ga GroupAssociations
-	data := h.data
+	data := h.data()
 	ga.GroupName = h.FieldString(int(data[0x04]))
-	cnt := (h.length - 5) / 3
+	cnt := (h.len() - 5) / 3
 	items := data[5:]
-	var i byte
-	for i = 0; i < cnt; i++ {
+	for i := 0; i < cnt; i++ {
 		var gai GroupAssociationsItem
 		gai.Type = SMBIOSStructureType(items[i*3])
 		gai.Handle = SMBIOSStructureHandle(u16(items[i*3+1:]))

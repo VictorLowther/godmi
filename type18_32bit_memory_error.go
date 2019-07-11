@@ -122,7 +122,7 @@ func (m _32BitMemoryErrorInformation) String() string {
 }
 
 func new_32BitMemoryErrorInformation(h dmiHeader) dmiTyper {
-	data := h.data
+	data := h.data()
 	bi := &_32BitMemoryErrorInformation{
 		Type:              MemoryErrorInformationType(data[0x04]),
 		Granularity:       MemoryErrorInformationGranularity(data[0x05]),

@@ -209,7 +209,7 @@ func (m MemoryDevice) String() string {
 }
 
 func newMemoryDevice(h dmiHeader) dmiTyper {
-	data := h.data
+	data := h.data()
 	res := &MemoryDevice{
 		PhysicalMemoryArrayHandle:  u16(data[0x04:0x06]),
 		ErrorInformationHandle:     u16(data[0x06:0x08]),

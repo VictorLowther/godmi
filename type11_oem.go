@@ -23,7 +23,7 @@ func (o OEMStrings) String() string {
 
 func newOEMStrings(h dmiHeader) dmiTyper {
 	var o OEMStrings
-	data := h.data
+	data := h.data()
 	o.Count = data[0x04]
 	for i := 1; i <= int(o.Count); i++ {
 		o.strings += fmt.Sprintf("strings: %d %s\n\t\t", i, h.FieldString(i))

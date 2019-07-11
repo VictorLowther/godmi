@@ -209,7 +209,7 @@ func (c ChassisInformation) String() string {
 }
 
 func newChassisInformation(h dmiHeader) dmiTyper {
-	data := h.data
+	data := h.data()
 	bi := &ChassisInformation{
 		Manufacturer:                 h.FieldString(int(data[0x04])),
 		Type:                         ChassisType(data[0x05]),

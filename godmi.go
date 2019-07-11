@@ -148,10 +148,61 @@ type entryPoint struct {
 	BCDRevision   byte
 }
 
-type dmiHeader struct {
-	infoCommon
-	data      []byte
-	strFields []string
+type dmiHeader []byte
+
+func (h dmiHeader) smType() SMBIOSStructureType {
+	return SMBIOSStructureType(h[0x00])
+}
+
+func (h dmiHeader) len() int {
+	return int(h[0x01])
+}
+
+func (h dmiHeader) handle() SMBIOSStructureHandle {
+	return SMBIOSStructureHandle(u16(h[0x02:0x04]))
+}
+
+func (h dmiHeader) end() int {
+	start := h.len()
+	end := bytes.Index(h[start:], []byte{0, 0})
+	if end == -1 {
+		return -1
+	}
+	return start + end
+}
+
+func (h dmiHeader) data() []byte {
+	res := make([]byte, h.len())
+	copy(res, h[:h.len()])
+	return res
+}
+
+func (h dmiHeader) FieldString(idx int) string {
+	end := h.end()
+	if end == -1 || idx == 0 {
+		return ""
+	}
+	bs := bytes.Split(h[h.len():end], []byte{0})
+	if idx > len(bs) {
+		return fmt.Sprintf("FieldString ### ERROR:strFields Len:%d, strIndex:%d", len(bs), idx)
+	}
+	return string(bs[idx-1])
+}
+
+func newdmiHeader(d []byte) dmiHeader {
+	if len(d) < 0x04 {
+		return nil
+	}
+	return dmiHeader(d)
+}
+
+func (h dmiHeader) Next() dmiHeader {
+	index := h.end()
+
+	if index == -1 {
+		return nil
+	}
+	return newdmiHeader(h[index+2:])
 }
 
 /*
@@ -244,71 +295,13 @@ func (e entryPoint) StructureTableMem() ([]byte, error) {
 	return getMem(e.TableAddress, uint32(e.TableLength))
 }
 
-func newdmiHeader(d []byte) *dmiHeader {
-	if len(d) < 0x04 {
-		return nil
-	}
-	h := dmiHeader{
-		infoCommon: infoCommon{
-			smType: SMBIOSStructureType(d[0x00]),
-			length: d[1],
-			handle: SMBIOSStructureHandle(u16(d[0x02:0x04])),
-		},
-		data: d,
-	}
-	h.setStringFields()
-	return &h
-}
-
-func (h dmiHeader) Next() *dmiHeader {
-	index := h.getStructTableEndIndex()
-
-	if index == -1 {
-		return nil
-	}
-	return newdmiHeader(h.data[index+2:])
-}
-
-func (h dmiHeader) getStructTableEndIndex() int {
-	de := []byte{0, 0}
-	next := h.data[h.length:]
-	endIdx := bytes.Index(next, de)
-	if endIdx == -1 {
-		return -1
-	}
-	return int(h.length) + endIdx
-}
-
 func (h dmiHeader) decode() error {
-	t := h.smType
-	newfn, err := getTypeFunc(t)
+	newfn, err := getTypeFunc(h.smType())
 	if err != nil {
 		return err
 	}
 	newfn(h)
 	return nil
-}
-
-func (h *dmiHeader) setStringFields() {
-	index := h.getStructTableEndIndex()
-	if index == -1 {
-		return
-	}
-	fieldData := h.data[h.length:index]
-	bs := bytes.Split(fieldData, []byte{0})
-	for _, v := range bs {
-		h.strFields = append(h.strFields, string(v))
-	}
-}
-
-func (h dmiHeader) FieldString(strIndex int) string {
-	if strIndex == 0 {
-		return ""
-	}
-	if strIndex > len(h.strFields) {
-		return fmt.Sprintf("FieldString ### ERROR:strFields Len:%d, strIndex:%d", len(h.strFields), strIndex)
-	}
-	return h.strFields[strIndex-1]
 }
 
 func (e entryPoint) StructureTable(file string) error {
@@ -344,6 +337,8 @@ var g_typeFunc = make(typeFunc)
 
 var g_lock sync.Mutex
 
+var smbiosVersion string
+
 func addTypeFunc(t SMBIOSStructureType, f newFunction) {
 	g_lock.Lock()
 	defer g_lock.Unlock()
@@ -358,15 +353,12 @@ func getTypeFunc(t SMBIOSStructureType) (fn newFunction, err error) {
 	return fn, nil
 }
 
-var smbiosVersion string
-
 func Init() error {
 	eps, file, err := newEntryPoint()
 	if err != nil {
 		return err
 	}
 	smbiosVersion = fmt.Sprintf("%d.%d", eps.MajorVersion, eps.MinorVersion)
-
 	return eps.StructureTable(file)
 }
 

@@ -129,7 +129,7 @@ func (p PortableBattery) String() string {
 }
 
 func newPortableBattery(h dmiHeader) dmiTyper {
-	data := h.data
+	data := h.data()
 	pi := &PortableBattery{
 		Location:                  h.FieldString(int(data[0x04])),
 		Manufacturer:              h.FieldString(int(data[0x05])),

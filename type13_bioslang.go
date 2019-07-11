@@ -48,7 +48,7 @@ func (b BIOSLanguageInformation) String() string {
 
 func newBIOSLanguageInformation(h dmiHeader) dmiTyper {
 	var bl BIOSLanguageInformation
-	data := h.data
+	data := h.data()
 	cnt := data[0x04]
 	for i := 1; i <= int(cnt); i++ {
 		bl.InstallableLanguage = append(bl.InstallableLanguage, h.FieldString(i))
