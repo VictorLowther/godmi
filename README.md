@@ -3,5 +3,5 @@ a SMBIOS/DMI library written in GO, Inspired by [dmidecode](http://www.nongnu.or
 
 ### Installation
 ```
-$ go get github.com/ochapman/godmi
+$ go get github.com/VictorLowther/godmi
 ```
