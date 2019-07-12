@@ -179,7 +179,7 @@ func (m MemoryDevice) String() string {
 		"\tSerial Number: %s\n"+
 		"\tAsset Tag: %s\n"+
 		"\tPart Number: %s\n"+
-		"\tAttributes: %s\n"+
+		"\tAttributes: %x\n"+
 		"\tConfigured Memory Clock Speed: %d\n"+
 		"\tMinimum voltage: %d\n"+
 		"\tMaximum voltage: %d\n"+
