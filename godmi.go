@@ -172,7 +172,7 @@ func (h dmiHeader) end() int {
 }
 
 func (h dmiHeader) data() []byte {
-	res := make([]byte, h.len())
+	res := make([]byte, 256)
 	copy(res, h[:h.len()])
 	return res
 }
