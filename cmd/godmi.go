@@ -11,12 +11,16 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/VictorLowther/godmi"
 )
 
 func main() {
-	godmi.Init()
+	if err := godmi.Init(); err != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err)
+		os.Exit(1)
+	}
 	fmt.Printf("%s\n", godmi.GetBIOSInformation())
 	fmt.Printf("%s\n", godmi.GetSystemInformation())
 	fmt.Printf("%s\n", godmi.GetBaseboardInformation())
